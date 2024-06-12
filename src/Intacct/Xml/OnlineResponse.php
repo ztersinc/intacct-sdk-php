@@ -99,12 +99,7 @@ class OnlineResponse extends AbstractResponse
         $this->setAuthentication(new Authentication($this->getXml()->{'operation'}->{'authentication'}[0]));
 
         if ($this->getAuthentication()->getStatus() !== 'success') {
-            $errors = [];
-            if (isset($this->getXml()->{'operation'}->{'errormessage'})) {
-                $errorMessage = new ErrorMessage($this->getXml()->{'operation'}->{'errormessage'});
-                $errors = $errorMessage->getErrors();
-            }
-            throw new ResponseException('Response authentication status failure', $errors);
+            throw new IntacctException('Response authentication status failure');
         }
 
         if (!isset($this->getXml()->{'operation'}->{'result'}[0])) {
